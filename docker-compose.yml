@@ -1,0 +1,24 @@
+services:
+    naoRobotAPI:
+        build: 
+            context: ./naoRobotAPI
+            dockerfile: Dockerfile
+        command: python a.py
+        image: jperdek/nao-robot-api
+        ports:
+            - "127.0.0.1:1234:1234"
+        container_name: naoRobotAPI
+        env_file: .env
+        environment:
+            HOST_PORT: ${HOST_PORT:-1234}
+            HOST_IP: ${HOST_IP:-127.0.0.1}
+            NAO_PORT: ${NAO_PORT:-9559}
+            NAO_IP: ${NAO_IP:-host.docker.internal}
+            FLASK_ENV: development
+        networks:
+            - buildernet
+
+networks:
+    buildernet:
+        driver: "bridge"
+        
