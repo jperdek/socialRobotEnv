@@ -25,5 +25,6 @@ RUN ./.bashrc
 RUN pip install -r requirements.txt
 #RUN python initialScript.py
 #file:///C:/Program%20Files%20(x86)/Aldebaran%20Robotics/Choregraphe%20Suite%202.1/share/doc/getting_started/helloworld_choregraphe_script.html
-
+#python robot_module_testing/movement_test.py
+#file:///C:/Program%20Files%20(x86)/Aldebaran%20Robotics/Choregraphe%20Suite%202.1/share/doc/software/choregraphe/index.html
 CMD [ "python", "a.py" ]

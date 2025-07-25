@@ -5,7 +5,7 @@ import time
 
 
 class NAOController:
-    def __init__(self, ip="127.0.0.1", port=9559):
+    def __init__(self, ip="127.0.0.1", port=49914):
         self.motion = ALProxy("ALMotion", ip, port)
         
     def t_pose(self, duration=3.0):
@@ -68,12 +68,20 @@ class NAOController:
         self.motion.angleInterpolation(joints, angles, times, True)
         print("T-pose completed!")
 
+
+#[I] 13 qimessaging.session: Session listener created on tcp://0.0.0.0:0
+#[I] 13 qimessaging.transportserver: TransportServer will listen on: tcp://172.19.0.2:43743
+#[I] 13 qimessaging.transportserver: TransportServer will listen on: tcp://127.0.0.1:43743
+#[W] 32 qimessaging.transportsocket: connect: Connection refused
+#
+#        Cannot connect to tcp://host.docker.internal:9559
 def main():
     # Initialize NAO controller
     nao = NAOController()
     
     # Put NAO in T-pose
     nao.t_pose(duration=3.0)
+
 
 if __name__ == "__main__":
     main()
