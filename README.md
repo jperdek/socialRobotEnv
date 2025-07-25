@@ -1,4 +1,4 @@
-\# Social Robotics - Training with Seniors Using NAO Robot
+# Social Robotics - Training with Seniors Using NAO Robot
 
 Functionality focused on training with elderly people using Nao robot and various technologies
 
@@ -8,15 +8,12 @@ Functionality focused on training with elderly people using Nao robot and variou
 
 
 
-\## Docker Integration
+## Docker Integration
 
 The orchestrated functionality can be run using docker compose and each standalone application using Docker
 
 
-
 run:  
-
-
 
 ```docker compose up --build```
 
@@ -24,29 +21,29 @@ run:
 
 
 
-\## Developer Section
+## Developer Section
 
 
 
 
 
-\### Windows  
+### Windows  
 
 
 
-\- Download Ubuntu 18.04 version (last version supporting python2.7-dev library using apt + runs fast on Windows and does not contain some bugs (problems with drawn folders inside))
+- Download Ubuntu 18.04 version (last version supporting python2.7-dev library using apt + runs fast on Windows and does not contain some bugs (problems with drawn folders inside))
 
 &nbsp;	-open https://releases.ubuntu.com/18.04/
 
 &nbsp;	-download iso image called ubuntu-18.04.6-desktop-amd64.iso
 
-\- Download and Install VirtualBox latest version (https://www.virtualbox.org/wiki/Downloads)
+- Download and Install VirtualBox latest version (https://www.virtualbox.org/wiki/Downloads)
 
-\- Download VirtualBox Guest Addons to share files and commands (https://download.virtualbox.org/virtualbox/7.1.12/ ->  VBoxGuestAdditions\_7.1.12.iso)
+- Download VirtualBox Guest Addons to share files and commands (https://download.virtualbox.org/virtualbox/7.1.12/ ->  VBoxGuestAdditions\_7.1.12.iso)
 
 &nbsp;	- open iso and run proper installer
 
-\- Install Ubuntu on VirtualBox
+- Install Ubuntu on VirtualBox
 
 &nbsp;	- open VirtualBox
 
@@ -60,19 +57,19 @@ run:
 
 &nbsp;	- wait for installation to complete
 
-&nbsp;	!\[Installing Ubuntu](https://github.com/jperdek/socialRobotEnv/tree/master/documentation/windowsTutorial/virtualBoxUbuntuInstall.png)
+&nbsp;	![Installing Ubuntu](https://github.com/jperdek/socialRobotEnv/tree/master/documentation/windowsTutorial/virtualBoxUbuntuInstall.png)
 
-\- Log In to Ubuntu
+- Log In to Ubuntu
 
-\- Install Guest Additions on guest Ubuntu (on upper panel click devices -> insert image with guest additions)
+- Install Guest Additions on guest Ubuntu (on upper panel click devices -> insert image with guest additions)
 
 &nbsp;	- allow Ubuntu to install them
 
-&nbsp;	!\[VirtualBox Guest Additions for Ubuntu guest operating system](https://github.com/jperdek/socialRobotEnv/tree/master/documentation/windowsTutorial/installingGuestAdditionsOnGuestUbuntu.png)
+&nbsp;	![VirtualBox Guest Additions for Ubuntu guest operating system](https://github.com/jperdek/socialRobotEnv/tree/master/documentation/windowsTutorial/installingGuestAdditionsOnGuestUbuntu.png)
 
 
 
-\- Hit Ctrl + T or open terminal
+- Hit Ctrl + T or open terminal
 
 &nbsp;	-run Python installation using command
 
@@ -94,9 +91,9 @@ run:
 
 &nbsp;	``` export PYTHONPATH=${PYTHONPATH}:/pynaoqi```
 
-\- Download this repo into Windows (in my case it is E:\\robotics)
+- Download this repo into Windows (in my case it is E:\\robotics)
 
-\- Share folder with this repo on Windows with installed Ubuntu running on VirtualBox (in my case /robotics)
+- Share folder with this repo on Windows with installed Ubuntu running on VirtualBox (in my case /robotics)
 
 &nbsp;	- In VirtualBox click on image with Ubuntu
 
@@ -108,17 +105,17 @@ run:
 
 &nbsp;	- Set paths and confirm
 
-&nbsp;	!\[Shared folder in VirtualBox configuration](https://github.com/jperdek/socialRobotEnv/tree/master/documentation/windowsTutorial/configuringSharedFolder.png)
+&nbsp;	![Shared folder in VirtualBox configuration](https://github.com/jperdek/socialRobotEnv/tree/master/documentation/windowsTutorial/configuringSharedFolder.png)
 
-\- Open Ubuntu and switch to sudo to access shared folder using ```sudo su``` command
+- Open Ubuntu and switch to sudo to access shared folder using ```sudo su``` command
 
-&nbsp;	!\[Shared folder on Ubuntu command line](https://github.com/jperdek/socialRobotEnv/tree/master/documentation/windowsTutorial/roboticsFolder.png) 
+&nbsp;	![Shared folder on Ubuntu command line](https://github.com/jperdek/socialRobotEnv/tree/master/documentation/windowsTutorial/roboticsFolder.png) 
 
-\- Make modifications on Windows and Run Apps on Ubuntu (Linux)
+- Make modifications on Windows and Run Apps on Ubuntu (Linux)
 
 
 
-!\[My VirtualBox configuration for Ubuntu 18.04 image](https://github.com/jperdek/socialRobotEnv/tree/master/documentation/windowsTutorial/myConfiguration.png)
+![My VirtualBox configuration for Ubuntu 18.04 image](https://github.com/jperdek/socialRobotEnv/tree/master/documentation/windowsTutorial/myConfiguration.png)
 
 
 
