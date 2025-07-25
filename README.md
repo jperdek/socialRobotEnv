@@ -73,11 +73,7 @@ run:
 
 &nbsp;	-run Python installation using command
 
-&nbsp;	```sudo apt-get update \\
-
-&nbsp; 		\&\& apt-get install -y wget python-pip python2.7-dev gcc make openssl libffi-dev libgdbm-dev libsqlite3-dev libssl-dev zlib1g-dev \\
-
-&nbsp; 		\&\& apt-get clean ```
+&nbsp;	```sudo apt-get update	&& apt-get install -y wget python-pip python2.7-dev gcc make openssl libffi-dev libgdbm-dev libsqlite3-dev libssl-dev zlib1g-dev && apt-get clean ```
 
 &nbsp;	-copy pynaoqi library (https://github.com/AnonKour/pynaoqi) to /pynaoqi
 
