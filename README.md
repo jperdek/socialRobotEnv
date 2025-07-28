@@ -76,9 +76,10 @@ run:
 
 &nbsp;	```sudo apt-get update \\
 
-&nbsp; 		\&\& apt-get install -y wget python2 libpython2.7 gcc make openssl libffi-dev libgdbm-dev libsqlite3-dev libssl-dev zlib1g-dev \\
+&nbsp; 		&& apt-get install -y wget python2 libpython2.7 gcc make openssl libffi-dev libgdbm-dev libsqlite3-dev libssl-dev zlib1g-dev \\
 
-&nbsp; 		\&\& apt-get clean ```
+&nbsp; 		&& apt-get clean ```
+
 
 &nbsp;	-copy pynaoqi library (https://github.com/AnonKour/pynaoqi) to /pynaoqi
 
