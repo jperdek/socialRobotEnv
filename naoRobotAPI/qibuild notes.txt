@@ -1,0 +1,32 @@
+qibuild init 
+	-necessary to initialize otherwise other commands will be not functional, errors like not in workpath
+
+qisrc create foo
+	-to create new c++ project, such as hello world example
+	-is easy to configure
+	-foo is name of the project, replace it further
+
+qibuild configure
+	-configuring new project
+	-creates directory build-sys-linux-x86_64
+	-even qibuild configure foo
+
+	not in path error: cmake is not istalled an dnot in path and quibuild configure is not called
+
+quibuild make
+	-creates executable on the path ./build-sys-linux-x86_64/sdk/bin/foo
+
+	-can be executed by
+		./build-sys-linux-x86_64/sdk/bin/foo
+
+qibuild config
+	-different as qibuild configure
+qitoolchain info
+	-prints information
+
+
+qisrc add .
+	-adds changes to qisrc worktree
+	-if  . throws error then add each file manually such as: 
+		qisrc add ./myapp.pml
+		qisrc add ./manifest.xml

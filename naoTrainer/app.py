@@ -41,19 +41,17 @@ from exercises_thread.squat_exercise import SquatExercise
 from exercises_thread.arm_circling_exercise import ArmCirclingExercise
 from exercises_thread.arm_sit_circling_exercise import ArmCirclingSitExercise
 
-
 from exercise_app_ui import ExerciseAppUI
-
 
 WALK_SCORE = 5
 
 
 class ExerciseApp(QMainWindow):
     init_fer = Signal(bool, str)
-    
+
     def __init__(self):
         super().__init__()
-        
+
         self.starting_label = None
         self.active_socket = None
 
@@ -62,10 +60,10 @@ class ExerciseApp(QMainWindow):
                 self.json_config = json.load(config_file)
         except:
             self.json_config = None
-        
+
         print(self.json_config)
 
-        self.connect_to_robot() # initialize socket connection
+        self.connect_to_robot()  # initialize socket connection
 
         self.current_exercise = None  # Initialize current exercise reference
 
@@ -93,34 +91,33 @@ class ExerciseApp(QMainWindow):
             self.activate_buttons()
         else:
             self.uiWrapper.ui.note_label.setText(self.starting_label)
-        
-        self.activate_FER() # initialize emotion recognition
+
+        self.activate_FER()  # initialize emotion recognition
         self.init_fer.emit(self.detect_em, self.fer_model)
 
         # Set up the timer
         self.elapsed_time = 0
         self.remaining_time = 10
-    
+
     def activate_buttons(self) -> None:
-         # Connect the button to the start_exercise method
+        # Connect the button to the start_exercise method
         self.uiWrapper.ui.sadanie_na_stolicku_button.clicked.connect(self.start_sadanie_na_stolicku)
 
-        #Kruzenie
+        # Kruzenie
         self.uiWrapper.ui.arm_circling_button.clicked.connect(self.start_arm_circling)
         self.uiWrapper.ui.arm_sit_circling_button.clicked.connect(self.start_sit_arm_circling)
 
-        #Chodenie okolo stolicky
+        # Chodenie okolo stolicky
         self.uiWrapper.ui.chair_circling_button.clicked.connect(self.start_chair_circling)
-      
 
-        #Zaklad
+        # Zaklad
         self.uiWrapper.ui.tpose_button.clicked.connect(self.start_tpose)
         self.uiWrapper.ui.end_button.clicked.connect(self.end_exercise)
-        
+
         # Toto je bez stolicky
         self.uiWrapper.ui.squat_button.clicked.connect(self.start_squat)
         self.uiWrapper.ui.sit_stand_raise_arms_button.clicked.connect(self.start_sit_stand_raise_arms)
-        
+
         # Toto je so stolickou
         self.uiWrapper.ui.forefooting_ruky_pri_tele_button.clicked.connect(self.start_forefooting_ruky_pri_tele)
         self.uiWrapper.ui.forefooting_ruky_nad_hlavu_button.clicked.connect(self.start_forefooting_ruky_nad_hlavu)
@@ -136,162 +133,196 @@ class ExerciseApp(QMainWindow):
         # End button
         self.uiWrapper.ui.end_button.clicked.connect(self.end_exercise)
 
-
         # Gui
-        
+
         self.uiWrapper.ui.note_label.setText("Cvičenie ešte nezačalo")
         self.uiWrapper.ui.distance_label.setText(" - ")
         self.uiWrapper.ui.score_label.setText("0")
 
     def activate_FER(self):
-         # Facial emotion recognition setup
+        # Facial emotion recognition setup
         if self.json_config != None:
             self.detect_em = self.json_config['enable_emotions']
             self.fer_model = exercise_messages_configuration.FER_MODEL
-                    
+
         else:
             self.detect_em = False
             self.fer_model = ''
-    
+
     def connect_to_robot(self):
         try:
             if self.active_socket == None:
-
                 ip_adress = (self.json_config["server_ip"], int(self.json_config["server_port"]))
 
                 self.active_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.active_socket.connect(ip_adress)
-                self.active_socket.setblocking(False) # Necessary, dont change or program will freeze
+                self.active_socket.setblocking(False)  # Necessary, dont change or program will freeze
 
             config_message = "config;" + json.dumps(self.json_config)
 
             print("Sended config...", config_message)
-            self.active_socket.sendall(config_message.encode()) 
+            self.active_socket.sendall(config_message.encode())
         except:
             self.active_socket = None
             self.starting_label = "Žiadne spojenie"
-
 
     def send_config(self):
         self.json_config = self.uiWrapper.show_dialog_config(self.json_config)
 
         with open('config.json', 'w') as config_file:
-            json.dump( self.json_config, config_file, indent=4)
-        
-        self.connect_to_robot()
-        self.activate_FER() # initialize emotion recognition
-        self.init_fer.emit(self.detect_em, self.fer_model)
+            json.dump(self.json_config, config_file, indent=4)
 
+        self.connect_to_robot()
+        self.activate_FER()  # initialize emotion recognition
+        self.init_fer.emit(self.detect_em, self.fer_model)
 
     def update_camera(self, qimage, fer_class):
         # Display the camera frame in the GUI
         self.uiWrapper.ui.video_feed.setPixmap(QPixmap.fromImage(qimage))
         self.uiWrapper.ui.emotion_class.setText(fer_class)
-    
-    def update_exercise_label(self, note):   # Update the label with the result of the exercise
+
+    def update_exercise_label(self, note):  # Update the label with the result of the exercise
         self.uiWrapper.ui.note_label.setText(note)
 
     def update_distance(self, distance):
-        self.uiWrapper.ui.distance_label.setText(str(round(distance*0.001, 2)) + " m")
+        self.uiWrapper.ui.distance_label.setText(str(round(distance * 0.001, 2)) + " m")
 
     def end_exercise(self):
         if self.current_exercise:
             self.current_exercise.end_exercise()
             self.current_exercise = None  # Reset the current exercise reference
-    
+
     def start_chair_circling(self, increment_score_bool):
         self.current_exercise = ChairCirclingExercise(self.exercise_messages["chair_circling"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("chair_circling", increment_score))
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("chair_circling",
+                                                                                                     increment_score))
         self.current_exercise.start()
-    
+
     def start_arm_circling(self, increment_score_bool):
         self.current_exercise = ArmCirclingExercise(self.exercise_messages["arm_circling"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("arm_circling", increment_score))
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("arm_circling",
+                                                                                                     increment_score))
         self.current_exercise.start()
-    
+
     def start_sit_arm_circling(self, increment_score_bool):
         self.current_exercise = ArmCirclingSitExercise(self.exercise_messages["arm_sit_circling"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("arm_sit_circling", increment_score))
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("arm_sit_circling",
+                                                                                                     increment_score))
         self.current_exercise.start()
 
     def start_squat(self, increment_score_bool):
         self.current_exercise = SquatExercise(self.exercise_messages["squat"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("squat", increment_score))
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("squat",
+                                                                                                     increment_score))
         self.current_exercise.start()
 
     def start_tpose(self, increment_score_bool):
         self.current_exercise = TPoseExercise(self.exercise_messages["tpose"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("tpose", increment_score))
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("tpose",
+                                                                                                     increment_score))
         self.current_exercise.start()
 
     def start_predpazovanie(self, increment_score_bool):
         self.current_exercise = Predpazovanie(self.exercise_messages["predpazovanie"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("predpazovanie", increment_score))
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("predpazovanie",
+                                                                                                     increment_score))
         self.current_exercise.start()
-
 
     def start_lift_right_leg(self, increment_score_bool):
         self.current_exercise = LiftRightLeg(self.exercise_messages["lift_right_leg"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("lift_right_leg", increment_score))
-        self.current_exercise.start()
-        
-    def start_lift_left_leg(self, increment_score_bool):
-        self.current_exercise = LiftLeftLeg(self.exercise_messages["lift_left_leg"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("lift_left_leg", increment_score))
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("lift_right_leg",
+                                                                                                     increment_score))
         self.current_exercise.start()
 
+    def start_lift_left_leg(self, increment_score_bool):
+        self.current_exercise = LiftLeftLeg(self.exercise_messages["lift_left_leg"], self.uiWrapper, self)
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("lift_left_leg",
+                                                                                                     increment_score))
+        self.current_exercise.start()
 
     def start_sadanie_na_stolicku(self, increment_score_bool):
         self.current_exercise = SadanieNaStolicku(self.exercise_messages["sadanie_na_stolicku"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("sadanie_na_stolicku", increment_score))
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score(
+                "sadanie_na_stolicku", increment_score))
         self.current_exercise.start()
 
     def start_forefooting_arm_raising(self, increment_score_bool):
-        self.current_exercise = ForefootingArmRaising(self.exercise_messages["forefooting_arm_raising"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("forefooting_arm_raising", increment_score))
+        self.current_exercise = ForefootingArmRaising(self.exercise_messages["forefooting_arm_raising"], self.uiWrapper,
+                                                      self)
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score(
+                "forefooting_arm_raising", increment_score))
         self.current_exercise.start()
 
     def start_forefooting_on_chair(self, increment_score_bool):
         self.current_exercise = ForefootingOnChair(self.exercise_messages["forefooting_on_chair"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("forefooting_on_chair", increment_score))
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score(
+                "forefooting_on_chair", increment_score))
         self.current_exercise.start()
 
     def start_forefooting_ruky_pri_tele(self, increment_score_bool):
-        self.current_exercise = ForefootingRukyPriTele(self.exercise_messages["forefooting_ruky_pri_tele"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("forefooting_ruky_pri_tele", increment_score))
+        self.current_exercise = ForefootingRukyPriTele(self.exercise_messages["forefooting_ruky_pri_tele"],
+                                                       self.uiWrapper, self)
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score(
+                "forefooting_ruky_pri_tele", increment_score))
         self.current_exercise.start()
 
     def start_forefooting_predpazovanie(self, increment_score_bool):
-        self.current_exercise = ForefootingPredpazovanie(self.exercise_messages["forefooting_predpazovanie"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("forefooting_predpazovanie", increment_score))
+        self.current_exercise = ForefootingPredpazovanie(self.exercise_messages["forefooting_predpazovanie"],
+                                                         self.uiWrapper, self)
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score(
+                "forefooting_predpazovanie", increment_score))
         self.current_exercise.start()
 
     def start_forefooting_rozpazovanie(self, increment_score_bool):
-        self.current_exercise = ForefootingRozpazovanie(self.exercise_messages["forefooting_rozpazovanie"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("forefooting_rozpazovanie", increment_score))
+        self.current_exercise = ForefootingRozpazovanie(self.exercise_messages["forefooting_rozpazovanie"],
+                                                        self.uiWrapper, self)
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score(
+                "forefooting_rozpazovanie", increment_score))
         self.current_exercise.start()
 
     def start_forefooting_ruky_nad_hlavu(self, increment_score_bool):
-        self.current_exercise = ForefootingRukyNadHlavu(self.exercise_messages["forefooting_ruky_nad_hlavu"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("forefooting_ruky_nad_hlavu", increment_score))
+        self.current_exercise = ForefootingRukyNadHlavu(self.exercise_messages["forefooting_ruky_nad_hlavu"],
+                                                        self.uiWrapper, self)
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score(
+                "forefooting_ruky_nad_hlavu", increment_score))
         self.current_exercise.start()
 
     def start_sit_stand_raise_arms(self, increment_score_bool):
         self.current_exercise = SitStandRaiseArms(self.exercise_messages["sit_stand_raise_arms"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("sit_stand_raise_arms", increment_score))
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score(
+                "sit_stand_raise_arms", increment_score))
         self.current_exercise.start()
-    
-    
+
     def start_forefooting_in_lying(self, increment_score_bool):
         self.current_exercise = ForefootingInLying(self.exercise_messages["forefooting_in_lying"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("forefooting_in_lying", increment_score))
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score(
+                "forefooting_in_lying", increment_score))
         self.current_exercise.start()
 
     def start_krizny_forefooting_in_lying(self, increment_score_bool):
-        self.current_exercise = KriznyForefootingInLying(self.exercise_messages["krizny_forefooting_in_lying"], self.uiWrapper, self)
-        self.camera_thread.score_signal.connect(lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score("krizny_forefooting_in_lying", increment_score))
+        self.current_exercise = KriznyForefootingInLying(self.exercise_messages["krizny_forefooting_in_lying"],
+                                                         self.uiWrapper, self)
+        self.camera_thread.score_signal.connect(
+            lambda increment_score=increment_score_bool: self.current_exercise.exercise_update_score(
+                "krizny_forefooting_in_lying", increment_score))
         self.current_exercise.start()
-
 
     def update_score_lift_left_leg(self, increment_score_bool):
         self.camera_thread.score_signal.connect(self.exercise_update_score("lift_left_leg", increment_score_bool))
@@ -302,7 +333,6 @@ class ExerciseApp(QMainWindow):
         self.camera_thread.score_signal.connect(self.update_score_lift_left_leg)
         self.camera_thread.stage_signal.connect(self.send_stage_to_robot)
 
-    
     def update_score_lift_right_leg(self, increment_score_bool):
         self.camera_thread.score_signal.connect(self.exercise_update_score("lift_right_leg", increment_score_bool))
 
@@ -320,12 +350,14 @@ class ExerciseApp(QMainWindow):
             self.uiWrapper.setStyleSheet("background-color: white;")
             self.uiWrapper.update_score(0)
         except TypeError:
-            pass  
+            pass
 
-    def save_score(self, exercise_name):   # save the time of saving, score and elapsed time to the .txt file
-      
+    def save_score(self, exercise_name):  # save the time of saving, score and elapsed time to the .txt file
+
         with open("score.txt", "a") as file:
-            file.write(str(datetime.now()) + " " + exercise_name + " " + self.uiWrapper.ui.score_label.text() + " " + str(self.elapsed_time) + "\n")
+            file.write(
+                str(datetime.now()) + " " + exercise_name + " " + self.uiWrapper.ui.score_label.text() + " " + str(
+                    self.elapsed_time) + "\n")
 
     def timerEvent(self, event):
         if self.current_exercise is not None:

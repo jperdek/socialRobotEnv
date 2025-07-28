@@ -3,9 +3,13 @@ from naoqi import ALProxy
 
 import time
 
+tts = ALProxy("ALTextToSpeech", "127.0.0.1", 9559)
+tts.say("Hello World 5!")
+exit(0)
+
 
 class NAOController:
-    def __init__(self, ip="127.0.0.1", port=49914):
+    def __init__(self, ip="nao.local", port=42931):
         self.motion = ALProxy("ALMotion", ip, port)
         
     def t_pose(self, duration=3.0):

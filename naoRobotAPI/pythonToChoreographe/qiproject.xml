@@ -1,6 +1,6 @@
 <!-- in qiproject.xml -->
 <project version="3">
-  <qipython name="pythonToChoreographe">
+  <qipython name="myapp">
     <!-- this is your executable that will go in bin/ -->
     <script src="myservice.py" />
     <!-- this is an helper that will go in lib/python2.7/site-packages/ -->
