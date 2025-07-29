@@ -1,22 +1,21 @@
 # -*- encoding: UTF-8 -*- 
 
 '''Cartesian control: Multiple Effector Trajectories'''
-
-import sys
-import motion
-import almath
+import os
 from naoqi import ALProxy
-import math
-import argparse
-import qi
+import dotenv
 
-virtualIP="127.0.0.1"
+if os.environ.get("LOCAL", "True") == "True":
+    dotenv.load_dotenv()
 
-robotIp=virtualIP
+NAO_IP = os.environ.get("NAO_IP", "127.0.0.1")
+NAO_PORT = int(os.environ.get("NAO_PORT", 9559))
 
-motionProxy = ALProxy("ALMotion", robotIp, 9559)
-postureProxy = ALProxy("ALRobotPosture", robotIp, 9559)
-memory_proxy = ALProxy("ALMemory", robotIp, 9559)
+
+motionProxy = ALProxy("ALMotion", NAO_IP, NAO_PORT)
+postureProxy = ALProxy("ALRobotPosture", NAO_IP, NAO_PORT)
+memory_proxy = ALProxy("ALMemory", NAO_IP, NAO_PORT)
+
 
 def left_leg_down():
     names = list()
@@ -38,7 +37,6 @@ def left_leg_down():
     names.append("RHipRoll")
     times.append([3])
     keys.append([-0.331613])
-
 
     motionProxy.angleInterpolationBezier(names, times, keys)
 

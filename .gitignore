@@ -3,4 +3,7 @@
 /naoTrainer/venv
 /naoTrainer/fer/weights_affectNet/torchscript_model_0_66_49_wo_gl.pth
 /sceletonFinderAPI/yolo11x-pose.pt
+/sceletonFinderAPI/datasets
+/sceletonFinderAPI/runs
 /naoRobotAPI/pynaoqiNewest
+/sceletonFinderAPI/thirdPartyPoseEstimation/yoloModel/yolov7-w6-pose.pt

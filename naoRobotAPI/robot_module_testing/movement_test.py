@@ -1,15 +1,16 @@
-import naoqi
+import os
 from naoqi import ALProxy
+import dotenv
 
-import time
+if os.environ.get("LOCAL", "True") == "True":
+    dotenv.load_dotenv()
 
-tts = ALProxy("ALTextToSpeech", "127.0.0.1", 9559)
-tts.say("Hello World 5!")
-exit(0)
+NAO_IP = os.environ.get("NAO_IP", "127.0.0.1")
+NAO_PORT = int(os.environ.get("NAO_PORT", 9559))
 
 
 class NAOController:
-    def __init__(self, ip="nao.local", port=42931):
+    def __init__(self, ip=NAO_IP, port=NAO_PORT):
         self.motion = ALProxy("ALMotion", ip, port)
         
     def t_pose(self, duration=3.0):
@@ -73,15 +74,9 @@ class NAOController:
         print("T-pose completed!")
 
 
-#[I] 13 qimessaging.session: Session listener created on tcp://0.0.0.0:0
-#[I] 13 qimessaging.transportserver: TransportServer will listen on: tcp://172.19.0.2:43743
-#[I] 13 qimessaging.transportserver: TransportServer will listen on: tcp://127.0.0.1:43743
-#[W] 32 qimessaging.transportsocket: connect: Connection refused
-#
-#        Cannot connect to tcp://host.docker.internal:9559
 def main():
     # Initialize NAO controller
-    nao = NAOController()
+    nao = NAOController(NAO_IP, NAO_PORT)
     
     # Put NAO in T-pose
     nao.t_pose(duration=3.0)

@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
-
+import os
 from naoqi import ALBroker, ALProxy
 import time
 import math
+import dotenv
 
-NAO_IP = "172.20.10.7"
-NAO_PORT = 9559
+if os.environ.get("LOCAL", "True") == "True":
+    dotenv.load_dotenv()
+
+NAO_IP = os.environ.get("NAO_IP", "127.0.0.1")
+NAO_PORT = int(os.environ.get("NAO_PORT", 9559))
+
 
 class FaceTracker:
     def __init__(self, nao_ip, nao_port, target_name="Face", width=0.1, distanceX=0.0, distanceY=0.0, angleWz=0.0,
@@ -26,7 +31,6 @@ class FaceTracker:
         self.last_seen = time.time()
         self.last_head_adjust = time.time()
         self.face_found = False  # Flag to keep track of whether face has been found
-
 
         # Create broker
         self.broker = ALBroker("myBroker", "0.0.0.0", 0, self.NAO_IP, self.NAO_PORT)

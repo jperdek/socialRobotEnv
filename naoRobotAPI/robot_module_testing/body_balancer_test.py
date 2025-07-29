@@ -2,11 +2,18 @@
 # -*- encoding: UTF-8 -*-
 
 """Example: Whole Body Motion - Foot State"""
-
+import os
 import qi
 import argparse
 import sys
 import math
+import dotenv
+
+if os.environ.get("LOCAL", "True") == "True":
+    dotenv.load_dotenv()
+
+NAO_IP = os.environ.get("NAO_IP", "127.0.0.1")
+NAO_PORT = int(os.environ.get("NAO_PORT", 9559))
 
 
 def main(session):
@@ -60,9 +67,9 @@ def main(session):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--ip", type=str, default="127.0.0.1",
+    parser.add_argument("--ip", type=str, default=NAO_IP,
                         help="Robot IP address. On robot or Local Naoqi: use '127.0.0.1'.")
-    parser.add_argument("--port", type=int, default=9559,
+    parser.add_argument("--port", type=int, default=NAO_IP,
                         help="Naoqi port number")
 
     args = parser.parse_args()
