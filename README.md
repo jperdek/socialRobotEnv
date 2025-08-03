@@ -58,7 +58,7 @@ run:
 
 &nbsp;	- wait for installation to complete
 
-&nbsp;	![Installing Ubuntu 22](https://github.com/jperdek/socialRobotEnv/tree/master/documentation/windowsTutorial/virtualBoxUbuntu22Install.png)
+&nbsp;	![Installing Ubuntu 22](/documentation/windowsTutorial/virtualBoxUbuntu22Install.png)
 
 - Log In to Ubuntu
 
@@ -66,7 +66,7 @@ run:
 
 &nbsp;	- allow Ubuntu to install them (or from inserted drive run shell script as administrator)
 
-&nbsp;	![VirtualBox Guest Additions for Ubuntu guest operating system](https://github.com/jperdek/socialRobotEnv/tree/master/documentation/windowsTutorial/installingGuestAdditionsOnGuestUbuntu.png)
+&nbsp;	![VirtualBox Guest Additions for Ubuntu guest operating system](/documentation/windowsTutorial/installingGuestAdditionsOnGuestUbuntu.png)
 
 
 
@@ -107,17 +107,17 @@ run:
 
 &nbsp;	- Set paths and confirm
 
-&nbsp;	![Shared folder in VirtualBox configuration](https://github.com/jperdek/socialRobotEnv/tree/master/documentation/windowsTutorial/configuringSharedFolder.png)
+&nbsp;	![Shared folder in VirtualBox configuration](/documentation/windowsTutorial/configuringSharedFolder.png)
 
 - Open Ubuntu and switch to sudo to access shared folder using ```sudo su``` command
 
-&nbsp;	![Shared folder on Ubuntu command line](https://github.com/jperdek/socialRobotEnv/tree/master/documentation/windowsTutorial/roboticsFolder.png) 
+&nbsp;	![Shared folder on Ubuntu command line](/documentation/windowsTutorial/roboticsFolder.png) 
 
 - Make modifications on Windows and Run Apps on Ubuntu (Linux)
 
 
 
-![My VirtualBox configuration for Ubuntu 22.04 image](https://github.com/jperdek/socialRobotEnv/tree/master/documentation/windowsTutorial/myConfigurationUbuntu22.png)
+![My VirtualBox configuration for Ubuntu 22.04 image](/documentation/windowsTutorial/myConfigurationUbuntu22.png)
 
 
 
