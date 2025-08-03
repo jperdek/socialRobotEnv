@@ -13,9 +13,6 @@ services:
             NAO_IP: ${NAO_IP:-host.docker.internal}
             DISPLAY: host.docker.internal:0
             FLASK_ENV: development
-        depends_on:
-            volumeCopyInit:
-                condition: service_completed_successfully
         networks:
             - buildernet
 volumes:
