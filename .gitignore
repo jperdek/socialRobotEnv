@@ -7,3 +7,5 @@
 /sceletonFinderAPI/runs
 /naoRobotAPI/pynaoqiNewest
 /sceletonFinderAPI/thirdPartyPoseEstimation/yoloModel/yolov7-w6-pose.pt
+*.iml
+*.xml
