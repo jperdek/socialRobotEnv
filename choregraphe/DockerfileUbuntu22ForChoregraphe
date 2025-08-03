@@ -1,0 +1,36 @@
+ARG UBUNTU_VERSION=22.04
+FROM ubuntu:$UBUNTU_VERSION
+
+ARG PYTHON_VERSION=2.7.5
+COPY choregraphe-2.8.8-ubuntu2204 /choregraphe
+
+# Install dependencies
+# PIP - openssl version > 1.1 may be an issue (try older ubuntu images)
+RUN apt-get update \
+  && apt-get install -y wget python2 libpython2.7 curl gcc make cmake openssl libffi-dev libgdbm-dev libsqlite3-dev libssl-dev zlib1g-dev \
+  && apt-get clean
+
+WORKDIR /tmp/
+
+
+RUN mkdir pynaoqi
+COPY ./naoRobotAPI/pynaoqi /pynaoqi
+#COPY ./naoRobotAPI/pynaoqi /usr/local/lib/python2.7/
+COPY ./naoRobotAPI /naoRobotAPI
+ENV PYTHONPATH=${PYTHONPATH}:/pynaoqi
+
+WORKDIR /naoRobotAPI
+RUN ./.bashrc
+#RUN apt-get -y update
+RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+RUN python2.7 get-pip.py
+RUN python2.7 -m pip install -r requirements.txt
+#RUN python initialScript.py
+#file:///C:/Program%20Files%20(x86)/Aldebaran%20Robotics/Choregraphe%20Suite%202.1/share/doc/getting_started/helloworld_choregraphe_script.html
+#python robot_module_testing/movement_test.py
+#file:///C:/Program%20Files%20(x86)/Aldebaran%20Robotics/Choregraphe%20Suite%202.1/share/doc/software/choregraphe/index.html
+
+RUN python2.7 -m pip install qibuild cmake
+
+RUN (/bin/sh -c /choregraphe/choregraphe &)
+CMD [ "python2.7", "a.py" ]

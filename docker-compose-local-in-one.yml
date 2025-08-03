@@ -1,0 +1,26 @@
+services:
+    naoRobotAPI:
+        build: 
+            dockerfile: ./choregraphe/DockerfileUbuntu22ForChoregraphe
+        command: python a.py
+        image: jperdek/nao-robot-api-with-choregraphe
+        container_name: naoRobotAPI
+        env_file: .env
+        environment:
+            HOST_PORT: ${HOST_PORT:-1234}
+            HOST_IP: ${HOST_IP:-127.0.0.1}
+            NAO_PORT: ${NAO_PORT:-9559}
+            NAO_IP: ${NAO_IP:-host.docker.internal}
+            DISPLAY: host.docker.internal:0
+            FLASK_ENV: development
+        depends_on:
+            volumeCopyInit:
+                condition: service_completed_successfully
+        networks:
+            - buildernet
+volumes:
+    choregraphe-volume:
+networks:
+    buildernet:
+        driver: "bridge"
+        

@@ -13,14 +13,32 @@ services:
             NAO_PORT: ${NAO_PORT:-9559}
             NAO_IP: ${NAO_IP:-host.docker.internal}
             FLASK_ENV: development
+        depends_on:
+            volumeCopyInit:
+                condition: service_completed_successfully
         networks:
             - buildernet
+    volumeCopyInit:
+        build:
+            dockerfile: Dockerfile
+        command: cp /localFiles/a.sh  /choregraphe/a.sh
+        env_file: .env
+        image: jperdek/copied-volumes-robotics
+        volumes:
+            - choregraphe-volume:/choregraphe
     choregraphe288:
-        image: dogarty33/choreographe-setup:2.8.8
+        image: alvimpaulo/choregraphe:2.8.6
+        environment:
+            DISPLAY: host.docker.internal:0
         ports:
             - "127.0.0.1:9559:9559"
+        depends_on:
+            volumeCopyInit:
+                condition: service_completed_successfully 
         networks:
             - buildernet
+volumes:
+    choregraphe-volume:
 networks:
     buildernet:
         driver: "bridge"
