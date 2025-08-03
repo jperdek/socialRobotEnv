@@ -2,7 +2,9 @@ import sys
 from flask import Flask
 import flask_cors
 
-
+from robot._exercises_impl import exercises_api
+from robot_module_testing import test_api
+from robot.setting_pose import setting_pose_api
 
 app = Flask(
     __name__,
@@ -12,9 +14,9 @@ app = Flask(
 )
 
 flask_cors.CORS(app)
-app.register_blueprint(ast_convertion_api, url_prefix="/tests")
-app.register_blueprint(python_complexity_api, url_prefix="/robotMovement")
-app.register_blueprint(python_complexity_api, url_prefix="/exercises")
+app.register_blueprint(test_api, url_prefix="/tests")
+app.register_blueprint(setting_pose_api, url_prefix="/setting_pose")
+app.register_blueprint(exercises_api, url_prefix="/exercises")
 
 
 @app.route("/", methods=["GET"])

@@ -37,6 +37,8 @@ RUN pip install ./compatDep/pickleshare-0.7.5-py2.py3-none-any.whl
 RUN pip install ./compatDep/python_dotenv-0.17.1-py2.py3-none-any.whl
 RUN pip install ./compatDep/dotenv-0.9.9-py2.py3-none-any.whl
 RUN pip install ./compatDep/ipython-4.1.0-py2-none-any.whl
+RUN pip install ./compatDep/Flask-1.1.1-py2.py3-none-any.whl
+RUN pip install ./compatDep/Flask_Cors-5.0.0-py2.py3-none-any.whl
 RUN pip install -r requirements.txt
 #RUN python initialScript.py
 #file:///C:/Program%20Files%20(x86)/Aldebaran%20Robotics/Choregraphe%20Suite%202.1/share/doc/getting_started/helloworld_choregraphe_script.html

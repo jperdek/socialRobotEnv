@@ -3,7 +3,7 @@ services:
         build: 
             context: ./naoRobotAPI
             dockerfile: Dockerfile
-        command: python a.py
+        command: python server.py
         image: jperdek/nao-robot-api
         container_name: naoRobotAPI
         env_file: .env

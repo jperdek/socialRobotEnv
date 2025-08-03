@@ -2,7 +2,7 @@ services:
     naoRobotAPI:
         build: 
             dockerfile: ./choregraphe/DockerfileUbuntu22ForChoregraphe
-        command: python a.py
+        command: python2.7 server.py
         image: jperdek/nao-robot-api-with-choregraphe
         container_name: naoRobotAPI
         env_file: .env
