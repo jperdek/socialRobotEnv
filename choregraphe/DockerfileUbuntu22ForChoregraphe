@@ -2,9 +2,10 @@ ARG UBUNTU_VERSION=22.04
 FROM ubuntu:$UBUNTU_VERSION
 
 ARG PYTHON_VERSION=2.7.5
-RUN tar -xvf choregraphe-2.8.8-ubuntu2204-standalone.tar.gz
-COPY choregraphe-2.8.8-ubuntu2204 /choregraphe
-RUN chmod +x /choregraphe/choregraphe
+COPY ./choregraphe/choregraphe-2.8.8-ubuntu2204-standalone.tar.gz /choregraphe-2.8.8-ubuntu2204-standalone.tar.gz 
+RUN tar -xvf /choregraphe-2.8.8-ubuntu2204-standalone.tar.gz
+RUN mkdir /choregraphe
+RUN chmod +x /choregraphe-2.8.8-ubuntu2204/choregraphe
 
 
 # Install dependencies
@@ -37,5 +38,5 @@ RUN python2.7 -m pip install -r requirements.txt
 RUN python2.7 -m pip install qibuild cmake
 
 
-RUN (/bin/sh -c /choregraphe/choregraphe &)
+RUN (/bin/sh -c /choregraphe-2.8.8-ubuntu2204/choregraphe &)
 CMD [ "python2.7", "a.py" ]
