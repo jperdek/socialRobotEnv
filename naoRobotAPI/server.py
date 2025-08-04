@@ -2,9 +2,9 @@ import sys
 from flask import Flask
 import flask_cors
 
-from robot._exercises_impl import exercises_api
-from robot_module_testing import test_api
-from robot.setting_pose import setting_pose_api
+from robot._exercises_impl.exercises_api import exercises_api
+from robot_module_testing.test_api import test_api
+from robot.setting_pose.setting_pose_api import setting_pose_api
 
 app = Flask(
     __name__,

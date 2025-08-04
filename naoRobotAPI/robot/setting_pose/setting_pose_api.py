@@ -12,10 +12,10 @@ def text_response(payload, status=200):
     return payload, status, {"content-type": "plain_text"}
 
 
-set_pose_api = Blueprint("setting_pose_api", __name__, template_folder="templates")
+setting_pose_api = Blueprint("setting_pose_api", __name__, template_folder="templates")
 
 
-@set_pose_api.route("/setPose", methods=["POST"])
+@setting_pose_api.route("/setPose", methods=["POST"])
 def set_pose():
     angles_dict = request.get_data().decode("utf-8", "ignore")
     set_nao_pose(angles_dict)

@@ -33,25 +33,25 @@ def set_nao_pose(angles_dict):
         angles_dict["LElbowYaw"],
         angles_dict["LWristYaw"],
         # Right Arm (straight out to side)
-        0.0,  # RShoulderPitch
-        -1.57,
-        0.0,  # RElbowRoll
-        0.0,  # RElbowYaw
-        0.0,  # RWristYaw
+        angles_dict["RShoulderPitch"],
+        #angles_dict[""],
+        angles_dict["RElbowRoll"],
+        angles_dict["RElbowYaw"],
+        angles_dict["RWristYaw"],
         # Legs (stable standing position)
-        0.0,  # LHipRoll
-        0.0,  # LHipPitch
-        0.0,  # LKneePitch
-        0.0,  # LAnklePitch
-        0.0,  # LAnkleRoll
-        0.0,  # RHipRoll
-        0.0,  # RHipPitch
-        0.0,  # RKneePitch
-        0.0,  # RAnklePitch
-        0.0,  # RAnkleRoll
+        angles_dict["LHipRoll"],
+        angles_dict["LHipPitch"],
+        angles_dict["LKneePitch"],
+        angles_dict["LAnklePitch"],
+        angles_dict["LAnkleRoll"],
+        angles_dict["RHipRoll"],
+        angles_dict["RHipPitch"],
+        angles_dict["RKneePitch"],
+        angles_dict["RAnklePitch"],
+        angles_dict["RAnkleRoll"],
         # Head (facing forward)
-        0.0,  # HeadYaw
-        0.0  # HeadPitch
+        angles_dict["HeadYaw"],
+        angles_dict["HeadPitch"]
     ]
 
     duration = 3.0

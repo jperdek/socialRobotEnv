@@ -28,7 +28,7 @@ RUN ./.bashrc
 #RUN apt-get -y update
 RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
 RUN python2.7 get-pip.py
-RUN python2.7 -m pip install ../naoRobotAPI/compatDep/Flask_Cors-5.0.0-py2.py3-none-any.whl
+RUN python2.7 -m pip install ../naoRobotAPI/compatDep/Flask_Cors-3.0.3-py2.py3-none-any.whl
 RUN python2.7 -m pip install -r requirements.txt
 #RUN python initialScript.py
 #file:///C:/Program%20Files%20(x86)/Aldebaran%20Robotics/Choregraphe%20Suite%202.1/share/doc/getting_started/helloworld_choregraphe_script.html
@@ -39,4 +39,4 @@ RUN python2.7 -m pip install qibuild cmake
 
 
 RUN (/bin/sh -c /choregraphe-2.8.8-ubuntu2204/choregraphe &)
-CMD [ "python2.7", "a.py" ]
+CMD [ "python2.7", "server.py" ]
