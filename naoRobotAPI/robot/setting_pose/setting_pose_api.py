@@ -1,7 +1,7 @@
 import json
 from flask import Blueprint, request
 
-from setting_pose import set_nao_pose
+from setting_pose import set_nao_pose, set_nao_pose_mediapipe
 
 
 def application_json_response(payload, status):
@@ -19,4 +19,11 @@ setting_pose_api = Blueprint("setting_pose_api", __name__, template_folder="temp
 def set_pose():
     angles_dict = request.get_data().decode("utf-8", "ignore")
     set_nao_pose(angles_dict)
+    return application_json_response({"success": True}, 200)
+
+
+@setting_pose_api.route("/setPoseMediapipe", methods=["POST"])
+def set_pose_mediapipe():
+    angles_dict = request.get_data().decode("utf-8", "ignore")
+    set_nao_pose_mediapipe(angles_dict)
     return application_json_response({"success": True}, 200)
