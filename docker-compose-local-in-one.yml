@@ -2,7 +2,6 @@ services:
     naoRobotAPI:
         build: 
             dockerfile: ./choregraphe/DockerfileUbuntu22ForChoregraphe
-        command: python2.7 server.py
         image: jperdek/nao-robot-api-with-choregraphe
         container_name: naoRobotAPI
         env_file: .env
@@ -17,8 +16,6 @@ services:
             FLASK_ENV: development
         networks:
             - buildernet
-volumes:
-    choregraphe-volume:
 networks:
     buildernet:
         driver: "bridge"
