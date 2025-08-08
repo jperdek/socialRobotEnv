@@ -59,7 +59,7 @@ def should_extract_frame(frame_number: int, fps: int = 30, number_frames_per_sec
 @torch.no_grad()
 def evaluate_yolo_pose(poseweights="yolov7-w6-pose.pt", source: str = "football1.mp4", device='cpu', view_img=False,
         save_conf=False, line_thickness=3, hide_labels=False, hide_conf=True, fps: int = 30, number_frames_per_sec: int = 1, number_seconds_to_process: int = -1, is_base64encoded = False) -> List[Dict]:
-    source = base64.decodestring(source) if is_base64encoded else source
+    source = base64.b64decode(source) if is_base64encoded else source
     if number_frames_per_sec > fps:
         raise Exception("Number of frames per sec to extract cannot be higher as fps!")
     elif number_frames_per_sec < 1:

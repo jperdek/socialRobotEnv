@@ -13,7 +13,7 @@ mp_pose = mp.solutions.pose
 
 
 def evaluate_pose_mediapipe(image_frame_base64, attach_visualization = False):
-    image_decoded = base64.decodestring(image_frame_base64)
+    image_decoded = base64.b64decode(image_frame_base64)
     nparr = np.fromstring(image_decoded, np.uint8)
     frame = cv2.imdecode(nparr, cv2.CV_LOAD_IMAGE_COLOR)
 
