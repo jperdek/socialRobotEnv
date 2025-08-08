@@ -1,7 +1,8 @@
 import json
 from flask import Blueprint, request
 
-from .pose_estimate import evaluate_yolo_pose_from_image, evaluate_yolo_pose_from_video
+from .pose_estimate import evaluate_yolo_pose_from_video
+from .yolo_image_only import process_image
 
 
 def application_json_response(payload, status):
@@ -18,7 +19,10 @@ yolo_pose_api = Blueprint("yolo_pose_api", __name__, template_folder="templates"
 @yolo_pose_api.route("/pose_from_image", methods=["POST"])
 def pose_from_image():
     encoded_image = request.get_data().decode("utf-8", "ignore")
-    evaluation_response = list(evaluate_yolo_pose_from_image(source=encoded_image, is_base64encoded=True))
+    view_img = bool(request.args.get("view_img", "False"))
+    get_bounding_box = bool(request.args.get("get_bounding_box", "False"))
+    evaluation_response = process_image(encoded_image, is_base64encoded=True,
+                                        view_img=view_img, get_bounding_box=get_bounding_box)
     return application_json_response(evaluation_response, 200)
 
 

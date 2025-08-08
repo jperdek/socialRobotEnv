@@ -10,7 +10,7 @@
 /naoRobotAPI/pynaoqiNewest
 /skeletonFinderAPI/server/third_party_pose_estimation/yolo_model/yolov7-w6-pose.pt
 /skeletonFinderAPI/server/yolov7-w6-pose.pt
-
+/skeletonFinderAPI/server/yolo11x-pose.pt
 /choreographeLocal/choregraphe-2.8.8-ubuntu2204-installer.run
 yolov7-w6-pose.pt
 .idea/*
