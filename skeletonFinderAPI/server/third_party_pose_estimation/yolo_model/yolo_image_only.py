@@ -27,13 +27,13 @@ def __get_pose_configuration(keypoints_xy, keypoints_conf, visualized_image, thi
 
         # Draw keypoints
         for i, (x, y) in enumerate(kpts):
-            if visualized_image and confs[i] > 0.5:  # Draw keypoints with sufficient confidence
+            if visualized_image and (confs[i] > 0.5).any():  # Draw keypoints with sufficient confidence
                 cv2.circle(visualized_image, (int(x), int(y)), 5, (0, 0, 255), -1)
             person_configuration[str(i)] = {"x": int(x), "y": int(y), "confidence": confs[i]}
 
         # Draw skeleton lines
         for (start, end) in skeleton:
-            if confs[start] > 0.5 and confs[end] > 0.5 and visualized_image:
+            if (confs[start] > 0.5).any() and (confs[end] > 0.5).any() and visualized_image:
                 start_pt = (int(kpts[start][0]), int(kpts[start][1]))
                 end_pt = (int(kpts[end][0]), int(kpts[end][1]))
                 cv2.line(visualized_image, start_pt, end_pt, (255, 0, 0), thickness)
