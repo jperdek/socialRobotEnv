@@ -17,7 +17,7 @@ def evaluate_pose_mediapipe(image_frame_base64, attach_visualization = False):
     nparr = np.fromstring(image_decoded, np.uint8)
     frame = cv2.imdecode(nparr, cv2.CV_LOAD_IMAGE_COLOR)
 
-    # Setup mediapipe instance
+    # Setup mediapipe_pose instance
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
 
         # Recolor image to RGB
@@ -58,6 +58,6 @@ def evaluate_pose_mediapipe(image_frame_base64, attach_visualization = False):
             visualization_image = Image.fromarray(np.uint8(image)).convert('RGB')
             visualization_byte_array = io.BytesIO()
             visualization_image.save(visualization_byte_array, format='PNG')
-            pose_configuration["visualization_base64"] = base64.encodestring(
+            pose_configuration["visualization_base64"] = base64.b64encode(
                 visualization_byte_array.getvalue().decode("utf-8"))
     return pose_configuration

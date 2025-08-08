@@ -21,11 +21,13 @@ def attempt_download(file, repo='WongKinYiu/yolov7'):
     file = Path(str(file).strip().replace("'", '').lower())
 
     if not file.exists():
+        model_release_path = f'https://api.github.com/repos/{repo}/releases#get-the-latest-release'
         try:
-            response = requests.get(f'https://api.github.com/repos/{repo}/releases/latest').json()  # github api
+            response = requests.get(model_release_path).json()  # github api
             assets = [x['name'] for x in response['assets']]  # release assets
             tag = response['tag_name']  # i.e. 'v1.0'
-        except:  # fallback plan
+        except Exception as e:  # fallback plan
+            print("Yolo model [" + model_release_path + "] failed to download: " + str(e))
             assets = ['yolov7.pt']
             tag = subprocess.check_output('git tag', shell=True).decode().split()[-1]
 
