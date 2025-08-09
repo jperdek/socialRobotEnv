@@ -131,4 +131,8 @@ def process_image(orig_image: str, is_base64encoded: bool = True, device: str = 
         if get_bounding_box:
             pose_configuration = __detect_bounding_rects(
                 image, visualized_result, pose_configuration, device)
+        if visualized_result:
+            ret, buf = cv2.imencode('.png', visualized_result)
+            pose_configuration["visualization_base64"] = base64.b64encode(
+                    np.array(buf)).decode("utf-8")
         return pose_configuration
