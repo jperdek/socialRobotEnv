@@ -22,11 +22,14 @@ run:
 
 ### Run Using Docker Locally on Choregraphe    
 
-```docker compose -f docker-compose-local-in-one.yml up```  
-
-Api does not work when services are separated probably due to not current version of choregraphe or RPC calls with different ports in:  
+Everything working even in Choregraphe using docker compose:
 
 ```docker compose -f docker-compose-local.yml up```  
+
+
+API and Choregraphe together in one microservice (NOT RECOMMENDED TO USE: very slow, robot cannot load):  
+
+```docker compose -f docker-compose-local-in-one.yml up```
 
 
 

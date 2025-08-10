@@ -23,8 +23,6 @@ class TestAlMotionBasic():
     def run_test(self):
         NAO_IP = os.environ.get("NAO_IP", "127.0.0.1")
         NAO_PORT = int(os.environ.get("NAO_PORT", 9559))
-        print(NAO_PORT)
-        print(NAO_IP)
         parser = argparse.ArgumentParser()
         parser.add_argument("--ip", type=str, default=NAO_IP,
                             help="Robot IP address. On robot or Local Naoqi: use '127.0.0.1'.")
