@@ -27,16 +27,35 @@ def __get_pose_configuration(keypoints_xy, keypoints_conf, visualized_image, thi
 
         # Draw keypoints
         for i, (x, y) in enumerate(kpts):
-            if visualized_image and (confs[i] > 0.5).any():  # Draw keypoints with sufficient confidence
-                cv2.circle(visualized_image, (int(x), int(y)), 5, (0, 0, 255), -1)
+            if visualized_image:
+                if isinstance(confs[i], list):
+                    for conf in confs[i]:
+                        if conf > 0.5:  # Draw keypoints with sufficient confidence
+                            cv2.circle(visualized_image, (int(x), int(y)), 5, (0, 0, 255), -1)
+                            break
+                else:
+                    cv2.circle(visualized_image, (int(x), int(y)), 5, (0, 0, 255), -1)
             person_configuration[str(i)] = {"x": int(x), "y": int(y), "confidence": confs[i]}
 
         # Draw skeleton lines
         for (start, end) in skeleton:
-            if (confs[start] > 0.5).any() and (confs[end] > 0.5).any() and visualized_image:
-                start_pt = (int(kpts[start][0]), int(kpts[start][1]))
-                end_pt = (int(kpts[end][0]), int(kpts[end][1]))
-                cv2.line(visualized_image, start_pt, end_pt, (255, 0, 0), thickness)
+            if visualized_image:
+                if isinstance(confs[start], list) and isinstance(confs[end], list):
+                    found = False
+                    for conf_start in confs[start]:
+                        for conf_end in confs[end]:
+                            if conf_start > 0.5 and conf_end > 0.5:
+                                start_pt = (int(kpts[start][0]), int(kpts[start][1]))
+                                end_pt = (int(kpts[end][0]), int(kpts[end][1]))
+                                cv2.line(visualized_image, start_pt, end_pt, (255, 0, 0), thickness)
+                                found = True
+                                break
+                        if found:
+                            break
+                else:
+                    start_pt = (int(kpts[start][0]), int(kpts[start][1]))
+                    end_pt = (int(kpts[end][0]), int(kpts[end][1]))
+                    cv2.line(visualized_image, start_pt, end_pt, (255, 0, 0), thickness)
         configuration["person_pose_" + str(person_idx)] = person_configuration
 
     return configuration
