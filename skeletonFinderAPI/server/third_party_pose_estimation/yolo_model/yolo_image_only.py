@@ -1,6 +1,6 @@
 import base64
 import io
-from typing import Dict, Optional
+from typing import Dict, Optional, Union
 
 import cv2
 import numpy as np
@@ -102,7 +102,7 @@ def __detect_bounding_rects(image, visualized_result: Optional[np.array],
 
 
 # first run - 12 minutes for one image on CPU
-def process_image(orig_image: str, is_base64encoded: bool = True, device: str = "cpu",
+def process_image(orig_image: Union[bytes, str], is_base64encoded: bool = True, device: str = "cpu",
                   view_img: bool = False, get_bounding_box: bool = False):
     orig_image = base64.b64decode(orig_image) if is_base64encoded else orig_image
 

@@ -38,6 +38,23 @@ services:
                 condition: service_completed_successfully 
         networks:
             - buildernet
+    skeletonFinderAPI:
+        build: 
+            context: ./skeletonFinderAPI
+            dockerfile: Dockerfile
+        command: python server.py
+        image: jperdek/skeleton-finder-api
+        container_name: skeletonFinderAPI
+        env_file: .env
+        ports:
+            - "127.0.0.1:6001:6001"
+        environment:
+            FLASK_ENV: development
+        depends_on:
+            volumeCopyInit:
+                condition: service_completed_successfully
+        networks:
+            - buildernet
 volumes:
     choregraphe-volume:
 networks:

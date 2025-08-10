@@ -30,11 +30,11 @@ with app.app_context():
 
 
 def launch():
-    app.run(host="127.0.0.1", debug=False, port=6000)
+    app.run(host="0.0.0.0", debug=False, port=6001)
 
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "production":
-        app.run(host="127.0.0.1", debug=False, port=6000)
+        app.run(host="0.0.0.0", debug=False, port=6001)
     else:
-        app.run(host="127.0.0.1", debug=True, port=6000)
+        app.run(host="0.0.0.0", debug=True, port=6001)
