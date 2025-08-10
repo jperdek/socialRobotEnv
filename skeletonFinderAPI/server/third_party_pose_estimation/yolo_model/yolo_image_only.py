@@ -1,5 +1,6 @@
 import base64
 import io
+import json
 from typing import Dict, Optional, Union
 
 import cv2
@@ -27,32 +28,16 @@ def __get_pose_configuration(keypoints_xy, keypoints_conf, visualized_image, thi
 
         # Draw keypoints
         for i, (x, y) in enumerate(kpts):
-            if visualized_image:
-                if isinstance(confs[i], list):
-                    for conf in confs[i]:
-                        if conf > 0.5:  # Draw keypoints with sufficient confidence
-                            cv2.circle(visualized_image, (int(x), int(y)), 5, (0, 0, 255), -1)
-                            break
-                else:
+            if visualized_image is not None:
+                if confs[i] > 0.5:  # Draw keypoints with sufficient confidence
                     cv2.circle(visualized_image, (int(x), int(y)), 5, (0, 0, 255), -1)
-            person_configuration[str(i)] = {"x": int(x), "y": int(y), "confidence": confs[i]}
+
+            person_configuration[str(i)] = {"x": int(x), "y": int(y), "confidence": float(confs[i])}
 
         # Draw skeleton lines
         for (start, end) in skeleton:
-            if visualized_image:
-                if isinstance(confs[start], list) and isinstance(confs[end], list):
-                    found = False
-                    for conf_start in confs[start]:
-                        for conf_end in confs[end]:
-                            if conf_start > 0.5 and conf_end > 0.5:
-                                start_pt = (int(kpts[start][0]), int(kpts[start][1]))
-                                end_pt = (int(kpts[end][0]), int(kpts[end][1]))
-                                cv2.line(visualized_image, start_pt, end_pt, (255, 0, 0), thickness)
-                                found = True
-                                break
-                        if found:
-                            break
-                else:
+            if visualized_image is not None:
+                if confs[start] > 0.5 and confs[end] > 0.5:
                     start_pt = (int(kpts[start][0]), int(kpts[start][1]))
                     end_pt = (int(kpts[end][0]), int(kpts[end][1]))
                     cv2.line(visualized_image, start_pt, end_pt, (255, 0, 0), thickness)
@@ -101,20 +86,20 @@ def __detect_bounding_rects(image, visualized_result: Optional[np.array],
                 if this_person:
                     pose_configuration["x_bounding_box"] = {
                         "first_point": {
-                            "x": x1,
-                            "y": y1
+                            "x": float(x1),
+                            "y": float(y1)
                         },
                         "second_point": {
-                            "x": x2,
-                            "y": y1
+                            "x": float(x2),
+                            "y": float(y1)
                         },
                         "third_point": {
-                            "x": x1,
-                            "y": y2
+                            "x": float(x1),
+                            "y": float(y2)
                         },
                         "fourth_point": {
-                            "x": x2,
-                            "y": y2
+                            "x": float(x2),
+                            "y": float(y2)
                         }
                     }
     return pose_configuration
@@ -150,8 +135,8 @@ def process_image(orig_image: Union[bytes, str], is_base64encoded: bool = True, 
         if get_bounding_box:
             pose_configuration = __detect_bounding_rects(
                 image, visualized_result, pose_configuration, device)
-        if visualized_result:
+        if visualized_result is not None:
             ret, buf = cv2.imencode('.png', visualized_result)
             pose_configuration["visualization_base64"] = base64.b64encode(
-                    np.array(buf)).decode("utf-8")
+                np.array(buf)).decode("utf-8")
         return pose_configuration
