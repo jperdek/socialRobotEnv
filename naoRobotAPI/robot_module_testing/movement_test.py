@@ -4,7 +4,6 @@ import dotenv
 
 if os.environ.get("LOCAL", "True") == "True":
     dotenv.load_dotenv()
-
 NAO_IP = os.environ.get("NAO_IP", "127.0.0.1")
 NAO_PORT = int(os.environ.get("NAO_PORT", 9559))
 
@@ -74,12 +73,18 @@ class NAOController:
         print("T-pose completed!")
 
 
-def main():
+def test():
+    NAO_IP = os.environ.get("NAO_IP", "127.0.0.1")
+    NAO_PORT = int(os.environ.get("NAO_PORT", 9559))
     # Initialize NAO controller
     nao = NAOController(NAO_IP, NAO_PORT)
-    
+
     # Put NAO in T-pose
     nao.t_pose(duration=3.0)
+
+
+def main():
+    test()
 
 
 if __name__ == "__main__":
