@@ -20,8 +20,6 @@ services:
                 condition: service_completed_successfully
         networks:
             - buildernet
-        extra_hosts:
-            - "host.docker.internal:host-gateway"
     volumeCopyInit:
         build:
             dockerfile: Dockerfile
@@ -31,18 +29,13 @@ services:
             - choregraphe-volume:/choregraphe
     choregraphe288:
         image: alvimpaulo/choregraphe:2.8.6
-        user: "0:0"   
         environment:
-            - DISPLAY=${DISPLAY}                 # e.g. :0
-            - QT_X11_NO_MITSHM=1
-            - XAUTHORITY=/root/.Xauthority      # so Qt reads the mounted cookie
-            - QT_QPA_PLATFORM=xcb               # force xcb on Wayland
-        volumes:
-            - /tmp/.X11-unix:/tmp/.X11-unix:rw  # X socket
-            - ${XAUTHORITY}:/root/.Xauthority:ro  # bind your live Xwayland cookie
-            - ~/pynaoqi:/pynaoqi 
+            DISPLAY: host.docker.internal:0
         ports:
-            - "127.0.0.1:9559:9559"             # if you need NAOqi outside
+            - "127.0.0.1:9559:9559"
+        depends_on:
+            volumeCopyInit:
+                condition: service_completed_successfully 
         networks:
             - buildernet
     skeletonFinderAPI:
