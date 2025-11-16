@@ -1,0 +1,6 @@
+# Force a NumPy that works with Mediapipe and SciPy/TensorFlow
+numpy==1.26.4
+
+# Pin OpenCV to a build that supports NumPy 1.26.x
+opencv-python==4.10.0.84
+opencv-contrib-python==4.10.0.84

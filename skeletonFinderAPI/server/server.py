@@ -20,7 +20,7 @@ app.register_blueprint(yolo_pose_api, url_prefix="/yolo_pose")
 
 @app.route("/", methods=["GET"])
 def check_if_service_is_up():
-    return "OK", 200, {"content-type": "text/html"}
+    return "OK!!", 200, {"content-type": "text/html"}
 
 
 with app.app_context():

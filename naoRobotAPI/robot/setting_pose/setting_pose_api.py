@@ -17,9 +17,11 @@ setting_pose_api = Blueprint("setting_pose_api", __name__, template_folder="temp
 
 @setting_pose_api.route("/setPose", methods=["POST"])
 def set_pose():
-    angles_dict = request.get_data().decode("utf-8", "ignore")
-    set_nao_pose(angles_dict)
+    data = request.get_json(force=True)
+    angles = data["angles"]
+    set_nao_pose(angles)
     return application_json_response({"success": True}, 200)
+
 
 
 @setting_pose_api.route("/setPoseMediapipe", methods=["POST"])

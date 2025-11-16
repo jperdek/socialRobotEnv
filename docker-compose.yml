@@ -1,22 +1,21 @@
+# A. Port mapping in docker-compose.yml (must be present)
+#   - container:5000 → VM:1234   (matches your config.json)
+#   - NAO_IP set correctly (see Mode A/B below)
 services:
-    naoRobotAPI:
-        build: 
-            context: ./naoRobotAPI
-            dockerfile: Dockerfile
-        command: python server.py
-        image: jperdek/nao-robot-api
-        container_name: naoRobotAPI
-        env_file: .env
-        environment:
-            HOST_PORT: ${HOST_PORT:-1234}
-            HOST_IP: ${HOST_IP:-127.0.0.1}
-            NAO_PORT: ${NAO_PORT:-9559}
-            NAO_IP: ${NAO_IP:-host.docker.internal}
-            FLASK_ENV: development
-        networks:
-            - buildernet
-
-networks:
-    buildernet:
-        driver: "bridge"
-        
+  naoRobotAPI:
+    build:
+      context: ./naoRobotAPI
+      dockerfile: Dockerfile
+    command: python server.py
+    image: jperdek/nao-robot-api
+    container_name: naoRobotAPI
+    env_file: .env
+    environment:
+      HOST_IP: 0.0.0.0
+      HOST_PORT: 5000
+      NAO_PORT: 9559
+      # NAO_IP will be set per mode below (robot vs simulator)
+    ports:
+      - "1234:5000"
+    networks: [buildernet]
+networks: { buildernet: { driver: bridge } }
