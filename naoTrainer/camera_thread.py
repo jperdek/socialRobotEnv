@@ -9,12 +9,7 @@ from realsense_depth import *
 from fer.fer_controller import FerController
 
 from fer.deepFaceModel import DeepFaceModel
-try:
-    from fer.affectNetCnn import AffectNetModel
-except Exception as e:
-    AffectNetModel = None
-    print("⚠️ FER disabled (AffectNetModel import failed):", e)
-
+from fer.affectNetCnn import AffectNetModel
 # from fer.cageModel import CageModel
 
 import mediapipe as mp
