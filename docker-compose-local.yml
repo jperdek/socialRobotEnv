@@ -57,11 +57,14 @@ services:
             - "127.0.0.1:6001:6001"
         environment:
             FLASK_ENV: development
-        depends_on:
-            volumeCopyInit:
-                condition: service_completed_successfully
+        volumes:
+            - /home/noetic/Pictures:/images:ro
+        # depends_on:
+        #     volumeCopyInit:
+        #     condition: service_completed_successfully
         networks:
             - buildernet
+
 volumes:
     choregraphe-volume:
 networks:

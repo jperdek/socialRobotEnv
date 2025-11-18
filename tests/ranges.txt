@@ -1,0 +1,56 @@
+LShoulderPitch:  -2.0857 → +2.0857
+LShoulderRoll:   +0.0087 → +1.5620
+LElbowRoll:      -1.5620 → -0.0087
+LElbowYaw:       -2.0857 → +2.0857
+LWristYaw:       -1.8238 → +1.8238
+
+RShoulderPitch:  -2.0857 → +2.0857
+RShoulderRoll:   -1.5620 → -0.0087
+RElbowRoll:      +0.0087 → +1.5620
+RElbowYaw:       -2.0857 → +2.0857
+RWristYaw:       -1.8238 → +1.8238
+
+LHipRoll:        -0.3794 → +0.7904
+LHipPitch:       -1.5359 → +0.4840
+LKneePitch:      -0.0923 → +2.1125
+LAnklePitch:     -1.1895 → +0.9227
+LAnkleRoll:      -0.3979 → +0.7690
+
+RHipRoll:        -0.7904 → +0.3794
+RHipPitch:       -1.5359 → +0.4840
+RKneePitch:      -0.1030 → +2.1200
+RAnklePitch:     -1.1864 → +0.9320
+RAnkleRoll:      -0.7689 → +0.3979
+
+HeadYaw:         -2.0857 → +2.0857
+HeadPitch:       -0.6720 → +0.5149
+
+
+----
+
+LShoulderPitch   = 1.39
+LShoulderRoll    = 0.15
+LElbowYaw        = -1.19
+LElbowRoll       = -0.49
+LWristYaw        = 0.0
+
+RShoulderPitch   = 1.39
+RShoulderRoll    = -0.15
+RElbowYaw        = 1.19
+RElbowRoll       = 0.49
+RWristYaw        = 0.0
+
+LHipRoll         = 0.0
+LHipPitch        = -0.45
+LKneePitch       = 0.70
+LAnklePitch      = -0.35
+LAnkleRoll       = 0.0
+
+RHipRoll         = 0.0
+RHipPitch        = -0.45
+RKneePitch       = 0.70
+RAnklePitch      = -0.35
+RAnkleRoll       = 0.0
+
+HeadYaw          = 0.0
+HeadPitch        = -0.15
