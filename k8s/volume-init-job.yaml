@@ -1,0 +1,12 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: volume-init-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: volume-init
+        image: jperdek/copied-volumes-robotics:latest
+        command: ["/bin/sh", "-c", "echo 'Volume initialization complete'"]
+      restartPolicy: Never

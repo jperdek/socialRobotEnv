@@ -1,0 +1,46 @@
+services:
+    naoRobotAPI:
+        build: 
+            context: ./naoRobotAPI
+            dockerfile: Dockerfile
+        command: python server.py
+        image: jperdek/nao-robot-api
+        container_name: naoRobotAPI
+        env_file: .env
+        ports:
+            - "127.0.0.1:5000:5000"
+        environment:
+            HOST_PORT: ${HOST_PORT:-1234}
+            HOST_IP: ${HOST_IP:-127.0.0.1}
+            NAO_PORT: ${NAO_PORT:-9559}
+            NAO_IP: host.docker.internal
+            FLASK_ENV: development
+        depends_on:
+            volumeCopyInit:
+                condition: service_completed_successfully
+        networks:
+            - buildernet
+    volumeCopyInit:
+        build:
+            dockerfile: Dockerfile
+        env_file: .env
+        image: jperdek/copied-volumes-robotics
+        volumes:
+            - choregraphe-volume:/choregraphe
+    choregraphe288:
+        image: alvimpaulo/choregraphe:2.8.6
+        environment:
+            DISPLAY: host.docker.internal:0
+        ports:
+            - "127.0.0.1:9559:9559"
+        depends_on:
+            volumeCopyInit:
+                condition: service_completed_successfully 
+        networks:
+            - buildernet
+volumes:
+    choregraphe-volume:
+networks:
+    buildernet:
+        driver: "bridge"
+        

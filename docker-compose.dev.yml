@@ -1,0 +1,63 @@
+services:
+  naoRobotAPI:
+    build: ./naoRobotAPI
+    image: jperdek/nao-robot-api:latest
+    command: python server.py
+    container_name: naoRobotAPI
+    env_file: .env
+    ports:
+      - "5000:5000"  # Removed 127.0.0.1 for better access
+    environment:
+      HOST_PORT: ${HOST_PORT:-1234}
+      HOST_IP: ${HOST_IP:-127.0.0.1}
+      NAO_PORT: ${NAO_PORT:-9559}
+      NAO_IP: ${NAO_IP:-localhost}  # More flexible
+      FLASK_ENV: development
+    depends_on:
+      volumeCopyInit:
+        condition: service_completed_successfully
+    networks:
+      - buildernet
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  volumeCopyInit:
+    build: .
+    image: jperdek/copied-volumes-robotics:latest
+    env_file: .env
+    container_name: volumeCopyInit
+    volumes:
+      - choregraphe-volume:/choregraphe
+    networks:
+      - buildernet
+
+  skeletonFinderAPI:
+    build: ./skeletonFinderAPI
+    image: jperdek/skeleton-finder-api:latest
+    command: python server.py
+    container_name: skeletonFinderAPI
+    env_file: .env
+    ports:
+      - "6001:6001"
+    environment:
+      FLASK_ENV: development
+    depends_on:
+      volumeCopyInit:
+        condition: service_completed_successfully
+    networks:
+      - buildernet
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  choregraphe-volume:
+
+networks:
+  buildernet:
+    driver: bridge

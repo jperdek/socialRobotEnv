@@ -1,0 +1,18 @@
+services:
+  nao-robot-api:
+    build: 
+      context: ./naoRobotAPI
+      dockerfile: Dockerfile
+    image: jperdek/nao-robot-api:latest
+  
+  skeleton-finder-api:
+    build: 
+      context: ./skeletonFinderAPI
+      dockerfile: Dockerfile
+    image: jperdek/skeleton-finder-api:latest
+  
+  copied-volumes-robotics:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jperdek/copied-volumes-robotics:latest
